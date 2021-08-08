@@ -1,41 +1,30 @@
-const colors = [
-  '#FFFFFF',
-  '#2196F3',
-  '#4CAF50',
-  '#FF9800',
-  '#009688',
-  '#795548',
-];
+new CountdownTimer({
+  selector: '#timer-1',
+  targetDate: new Date('Jul 17, 2019'),
+});
 
-//refs
-const btnStart = document.querySelector('button[data-action="start"]');
-const btnStop = document.querySelector('button[data-action="stop"]');
-const body = document.querySelector('body');
+//-----
+/*
+ * Оставшиеся дни: делим значение UTC на 1000 * 60 * 60 * 24, количество
+ * миллисекунд в одном дне (миллисекунды * секунды * минуты * часы)
+ */
+const days = Math.floor(time / (1000 * 60 * 60 * 24));
 
-//need-to-use functions
-const randomIntegerFromInterval = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
+/*
+ * Оставшиеся часы: получаем остаток от предыдущего расчета с помощью оператора
+ * остатка % и делим его на количество миллисекунд в одном часе
+ * (1000 * 60 * 60 = миллисекунды * минуты * секунды)
+ */
+const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
-const changeBodyColor = function () {
-  body.style.backgroundColor = colors[randomIntegerFromInterval(0, 5)];
-};
+/*
+ * Оставшиеся минуты: получаем оставшиеся минуты и делим их на количество
+ * миллисекунд в одной минуте (1000 * 60 = миллисекунды * секунды)
+ */
+const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
 
-//init function
-const startBtnAction = function (e) {
-  //start interval and remove event listener from start btn
-  const intervalID = setInterval(changeBodyColor, 1000);
-  btnStart.removeEventListener('click', startBtnAction);
-
-  //start listen to stop btn ///
-  const stopBtnAction = function (e) {
-    //...and if 'click' happened -> delete interval and listen to the start btn
-    clearInterval(intervalID);
-    btnStart.addEventListener('click', startBtnAction);
-    btnStop.removeEventListener('click', stopBtnAction);
-  };
-
-  btnStop.addEventListener('click', stopBtnAction);
-};
-
-btnStart.addEventListener('click', startBtnAction);
+/*
+ * Оставшиеся секунды: получаем оставшиеся секунды и делим их на количество
+ * миллисекунд в одной секунде (1000)
+ */
+const secs = Math.floor((time % (1000 * 60)) / 1000);
