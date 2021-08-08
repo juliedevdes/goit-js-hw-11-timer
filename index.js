@@ -1,30 +1,43 @@
-new CountdownTimer({
-  selector: '#timer-1',
-  targetDate: new Date('Jul 17, 2019'),
-});
+// class CountdownTimer {
+//   constructor({ selector, targetDate }) {
+//     this.selector = selector;
+//     this.targetDate = targetDate;
+//   }
+// }
 
+// const timer = new CountdownTimer({
+//   selector: '#timer-1',
+//   targetDate: new Date('Sep 17, 2021'),
+// });
+// console.log(timer);
 //-----
-/*
- * Оставшиеся дни: делим значение UTC на 1000 * 60 * 60 * 24, количество
- * миллисекунд в одном дне (миллисекунды * секунды * минуты * часы)
- */
-const days = Math.floor(time / (1000 * 60 * 60 * 24));
+const timer = {
+  start() {
+    const startTime = Date.now();
+    setInterval(() => {
+      const currentTime = Date.now();
+      const deltaTime = currentTime - startTime;
+      const { days, hours, mins, secs } = getTimeComponents(deltaTime);
+      document.querySelector('span[data-value="days"]').textContent = days;
+      document.querySelector('span[data-value="hours"]').textContent = hours;
+      document.querySelector('span[data-value="mins"]').textContent = mins;
+      document.querySelector('span[data-value="secs"]').textContent = secs;
 
-/*
- * Оставшиеся часы: получаем остаток от предыдущего расчета с помощью оператора
- * остатка % и делим его на количество миллисекунд в одном часе
- * (1000 * 60 * 60 = миллисекунды * минуты * секунды)
- */
-const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      console.log(`${hours}::${mins}::${secs}`);
+    }, 1000);
+  },
+};
+//timer.start();
 
-/*
- * Оставшиеся минуты: получаем оставшиеся минуты и делим их на количество
- * миллисекунд в одной минуте (1000 * 60 = миллисекунды * секунды)
- */
-const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+//calculation code
+const pad = value => String(value).padStart(2, '0');
 
-/*
- * Оставшиеся секунды: получаем оставшиеся секунды и делим их на количество
- * миллисекунд в одной секунде (1000)
- */
-const secs = Math.floor((time % (1000 * 60)) / 1000);
+const getTimeComponents = function (time) {
+  const days = pad(Math.floor(time / (1000 * 60 * 60 * 24)));
+  const hours = pad(
+    Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  );
+  const mins = pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+  const secs = pad(Math.floor((time % (1000 * 60)) / 1000));
+  return { days, hours, mins, secs };
+};
