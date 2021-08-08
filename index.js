@@ -3,22 +3,34 @@ class CountdownTimer {
     this.selector = selector;
     this.targetDate = targetDate;
   }
+
+  //site-interface interaction
+  updateClock(days, hours, mins, secs) {
+    document.querySelector(`${this.selector} [data-value="days"]`).textContent =
+      days;
+    document.querySelector(
+      `${this.selector} [data-value="hours"]`
+    ).textContent = hours;
+    document.querySelector(`${this.selector} [data-value="mins"]`).textContent =
+      mins;
+    document.querySelector(`${this.selector} [data-value="secs"]`).textContent =
+      secs;
+  }
+
   start() {
-    const startTime = this.targetDate;
     setInterval(() => {
       const currentTime = Date.now();
       const deltaTime = this.targetDate - currentTime;
       const { days, hours, mins, secs } = getTimeComponents(deltaTime);
-      document.querySelector('span[data-value="days"]').textContent = days;
-      document.querySelector('span[data-value="hours"]').textContent = hours;
-      document.querySelector('span[data-value="mins"]').textContent = mins;
-      document.querySelector('span[data-value="secs"]').textContent = secs;
+      this.updateClock(days, hours, mins, secs);
     }, 1000);
   }
 }
+
+//creating new instance
 const timer = new CountdownTimer({
   selector: '#timer-1',
-  targetDate: new Date('Sep 17, 2021'),
+  targetDate: new Date('Sep 30, 2021'),
 });
 
 timer.start();
