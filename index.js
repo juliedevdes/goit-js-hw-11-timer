@@ -4,10 +4,10 @@ class CountdownTimer {
     this.targetDate = targetDate;
   }
   start() {
-    const startTime = Date.now();
+    const startTime = this.targetDate;
     setInterval(() => {
       const currentTime = Date.now();
-      const deltaTime = currentTime - startTime;
+      const deltaTime = this.targetDate - currentTime;
       const { days, hours, mins, secs } = getTimeComponents(deltaTime);
       document.querySelector('span[data-value="days"]').textContent = days;
       document.querySelector('span[data-value="hours"]').textContent = hours;
