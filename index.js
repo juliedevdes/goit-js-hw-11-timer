@@ -30,7 +30,7 @@ class CountdownTimer {
 //creating new instance
 const timer = new CountdownTimer({
   selector: '#timer-1',
-  targetDate: new Date('Sep 30, 2021'),
+  targetDate: new Date('Sep 1, 2021'),
 });
 
 timer.start();
