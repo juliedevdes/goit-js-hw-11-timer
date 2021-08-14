@@ -24,6 +24,11 @@ class CountdownTimer {
       const { days, hours, mins, secs } = getTimeComponents(deltaTime);
       this.updateClock(days, hours, mins, secs);
     }, 1000);
+    document.querySelector(
+      `${this.selector} .title `
+    ).textContent = `Until ${this.targetDate.getDate()}/${
+      this.targetDate.getMonth() + 1
+    }/${this.targetDate.getFullYear()} left:`;
   }
 }
 
